@@ -4,7 +4,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "parameters.h"
+#include "params.h"
 
 typedef struct Actor
 {

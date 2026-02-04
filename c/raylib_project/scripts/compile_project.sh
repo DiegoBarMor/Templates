@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+if [ ! -d "src" ] || [ ! -d "include" ]; then
+    echo "Error: script must be run in the project folder containing 'src' and 'include' directories."
+    exit 1
+fi
+
 name_project=$(basename "$(realpath .)")
 
 mkdir -p build

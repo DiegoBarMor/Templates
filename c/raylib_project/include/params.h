@@ -1,5 +1,5 @@
-#ifndef PARAMETERS_H
-#define PARAMETERS_H
+#ifndef params_H
+#define params_H
 
 #include "raylib.h"
 #define MAX(a, b) ((a) > (b) ? (a) : (b))

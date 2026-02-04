@@ -1,4 +1,4 @@
-#include "parameters.h"
+#include "params.h"
 
 const char *GAME_TITLE = "Raylib Project";
 const int GAME_SCREEN_W = 1600;

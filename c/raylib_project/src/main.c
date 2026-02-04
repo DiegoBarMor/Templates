@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "parameters.h"
+#include "params.h"
 #include "actor.h"
 #include "render.h"
 
