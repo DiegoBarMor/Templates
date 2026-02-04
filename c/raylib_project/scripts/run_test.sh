@@ -7,13 +7,14 @@ if [ ! -d "src" ] || [ ! -d "include" ]; then
 fi
 
 name_project=$(basename "$(realpath .)")
-
 folder_out=$(realpath ~"/Desktop/gui_exec/$name_project")
-mkdir -p "$folder_out" "assets"
-rm   -rf "$folder_out/src" "$folder_out/include"
 
-cp "compile_project_ubuntu.sh" "$folder_out/"
-cp -r "assets"  "$folder_out/assets"
+if [ ! -d "$folder_out" ]; then
+    scripts/prepare_test.sh
+fi
+
+rm -rf "$folder_out/src" "$folder_out/include"
+
 cp -r "include" "$folder_out/include"
 cp -r "src"     "$folder_out/src"
 

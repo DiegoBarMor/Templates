@@ -1,6 +1,6 @@
 desktop.ini
 .vscode/
 
-assets/
+# assets/
 build/
 raylib_project
