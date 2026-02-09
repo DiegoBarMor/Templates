@@ -7,12 +7,12 @@ if [ ! -d "src" ] || [ ! -d "include" ]; then
 fi
 
 name_project=$(basename "$(realpath .)")
-folder_out=$(realpath ~"/Desktop/gui_exec/$name_project")
+folder_out=~/Desktop/gui_exec/$name_project
 
 rm   -rf "$folder_out"
 mkdir -p "$folder_out"
 
-cp "compile_project_ubuntu.sh" "$folder_out/"
+cp "scripts/compile_project.sh" "$folder_out/"
 if [ -d "assets" ]; then
     cp -r "assets"  "$folder_out/assets"
 fi

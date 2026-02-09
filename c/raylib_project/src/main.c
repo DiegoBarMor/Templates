@@ -9,13 +9,13 @@ int main(void) {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
 
     //-------------------------------------------------------------------------- INITIALIZATION
-    InitWindow(SCREEN_INIT_W, SCREEN_INIT_H, GAME_TITLE);
+    InitWindow(SCREEN_INIT_W, SCREEN_INIT_H, APP_TITLE);
     #ifndef DO_DEBUG
         ToggleFullscreen();
     #endif
     SetWindowMinSize(SCREEN_MIN_W, SCREEN_MIN_H);
 
-    RenderTexture2D target = LoadRenderTexture(GAME_SCREEN_W, GAME_SCREEN_H);
+    RenderTexture2D target = LoadRenderTexture(APP_SCREEN_W, APP_SCREEN_H);
     SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);
 
     SetTargetFPS(TARGET_FPS);
@@ -23,21 +23,21 @@ int main(void) {
     Actor player = INIT_ACTOR;
 
 
-    //-------------------------------------------------------------------------- GAME LOOP
+    //-------------------------------------------------------------------------- MAIN LOOP
     while (!WindowShouldClose()) {
         //---------------------------------------------------------------------- UPDATE
         float framebuffer_scale = MIN(
-            (float)GetScreenWidth()  / GAME_SCREEN_W,
-            (float)GetScreenHeight() / GAME_SCREEN_H
+            (float)GetScreenWidth()  / APP_SCREEN_W,
+            (float)GetScreenHeight() / APP_SCREEN_H
         );
         Vector2 mouse = GetMousePosition();
         Vector2 virtual_mouse = Vector2Clamp(
             (Vector2){
-                (mouse.x - (GetScreenWidth()  - (GAME_SCREEN_W*framebuffer_scale)) * 0.5f) / framebuffer_scale,
-                (mouse.y - (GetScreenHeight() - (GAME_SCREEN_H*framebuffer_scale)) * 0.5f) / framebuffer_scale
+                (mouse.x - (GetScreenWidth()  - (APP_SCREEN_W*framebuffer_scale)) * 0.5f) / framebuffer_scale,
+                (mouse.y - (GetScreenHeight() - (APP_SCREEN_H*framebuffer_scale)) * 0.5f) / framebuffer_scale
             },
             (Vector2){ 0.0f, 0.0f },
-            (Vector2){ (float)GAME_SCREEN_W, (float)GAME_SCREEN_H }
+            (Vector2){ (float)APP_SCREEN_W, (float)APP_SCREEN_H }
         );
 
         player.pos = virtual_mouse;
@@ -54,10 +54,10 @@ int main(void) {
                 target.texture,
                 (Rectangle){ 0.0f, 0.0f, (float)target.texture.width, (float)-target.texture.height },
                 (Rectangle){
-                    (GetScreenWidth()  - ((float)GAME_SCREEN_W * framebuffer_scale))*0.5f,
-                    (GetScreenHeight() - ((float)GAME_SCREEN_H * framebuffer_scale))*0.5f,
-                    (float)GAME_SCREEN_W * framebuffer_scale,
-                    (float)GAME_SCREEN_H * framebuffer_scale
+                    (GetScreenWidth()  - ((float)APP_SCREEN_W * framebuffer_scale))*0.5f,
+                    (GetScreenHeight() - ((float)APP_SCREEN_H * framebuffer_scale))*0.5f,
+                    (float)APP_SCREEN_W * framebuffer_scale,
+                    (float)APP_SCREEN_H * framebuffer_scale
                 },
                 (Vector2){ 0.0f, 0.0f },
                 0.0f,

@@ -1,8 +1,8 @@
 #include "params.h"
 
-const char *GAME_TITLE = "Raylib Project";
-const int GAME_SCREEN_W = 1600;
-const int GAME_SCREEN_H = 1200;
+const char *APP_TITLE = "Raylib Project";
+const int APP_SCREEN_W = 1600;
+const int APP_SCREEN_H = 1200;
 
 const int SCREEN_MIN_W = 400;
 const int SCREEN_MIN_H = 400;

@@ -6,8 +6,10 @@ if [ ! -d "src" ] || [ ! -d "include" ]; then
     exit 1
 fi
 
+append_timestamp=false
+
 name_project=$(basename "$(realpath .)")
-folder_out=$(realpath ~"/Desktop/gui_exec/$name_project")
+folder_out=~/Desktop/gui_exec/$name_project
 
 if [ ! -d "$folder_out" ]; then
     scripts/prepare_test.sh
@@ -19,14 +21,21 @@ cp -r "include" "$folder_out/include"
 cp -r "src"     "$folder_out/src"
 
 cd "$folder_out"
-./compile_project_ubuntu.sh
+./compile_project.sh
 cd - >/dev/null
 
+if [ -z "${PREFIX+x}" ]; then # safe test for PREFIX even with "set -u"
+    is_termux=""
+else
+    is_termux=$(printf '%s' "$PREFIX" | grep -o "com.termux" || true)
+fi
+
 ts=$(date "+%Y%m%d_%H%M%S")
-is_termux=$(echo "$PREFIX" | grep -o "com.termux")
-if [ "$is_termux" ]; then
+if [ "$is_termux" ] && [ $append_timestamp == "true" ]; then
     echo "// $ts last compiled (termux)" >> "src/main.c"
 else
-    echo "// $ts last compiled (other)" >> "src/main.c"
+    if [ $append_timestamp == "true" ]; then
+        echo "// $ts last compiled (other)" >> "src/main.c"
+    fi
     "$folder_out/$name_project" # run the executable
 fi

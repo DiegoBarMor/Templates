@@ -2,7 +2,10 @@
 set -euo pipefail
 
 sudo apt update
-sudo apt install build-essential clang pkg-config
+sudo apt install build-essential git clang pkg-config cmake -y
+sudo apt install libasound2-dev libx11-dev libxrandr-dev \
+    libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev \
+    libxinerama-dev libwayland-dev libxkbcommon-dev -y
 
 TMPDIR=$(mktemp -d /tmp/raylib-build-XXXX)
 trap 'rm -rf "$TMPDIR"' EXIT
