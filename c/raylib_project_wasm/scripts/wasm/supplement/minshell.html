@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Raylib Project</title>
+    <style>
+      body { margin: 0px; overflow: hidden; background-color: black; }
+      canvas.emscripten { border: 0px none; background-color: black; }
+    </style>
+  </head>
+
+  <body>
+    <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
+    <p id="output">
+    {{{ SCRIPT }}}
+  </body>
+
+  <script>
+    var Module = {
+      print: (function() {
+        var element = document.getElementById("output");
+        if (element) element.value = ''; // clear browser cache
+        return function(text) {
+          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+          console.log(text);
+          if (element) {
+            element.value += text + "\n";
+            element.scrollTop = element.scrollHeight; // focus on bottom
+          }
+        };
+      })(),
+      canvas: (function() {
+        var canvas = document.getElementById("canvas");
+        return canvas;
+      })()
+    };
+  </script>
+
+</html>

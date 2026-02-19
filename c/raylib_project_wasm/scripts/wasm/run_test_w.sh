@@ -29,10 +29,11 @@ if [ ! -d "$folder_out" ]; then
     scripts/prepare_test.sh
 fi
 
-rm -rf "$folder_out/src" "$folder_out/include"
+rm -rf "$folder_out/src" "$folder_out/include" "$folder_out/scripts/wasm/supplement"
 
 cp -r "include" "$folder_out/include"
 cp -r "src"     "$folder_out/src"
+cp -r "scripts/wasm/supplement" "$folder_out/scripts/wasm/supplement"
 
 cd "$folder_out"
 bash scripts/wasm/compile_project_w.sh
@@ -59,7 +60,7 @@ if [ ! "$is_termux" ]; then
 
     echo "Serving HTTP on 0.0.0.0 port $PORT (http://localhost:$PORT/)."
     echo "Press 'q' in the terminal or close the browser tab to stop."
-    python3 "scripts/wasm/server.py" $PORT >/dev/null 2>&1
+    python3 "scripts/wasm/supplement/server.py" $PORT >/dev/null 2>&1
     echo "HTTP server stopped."
 
 elif [ $append_timestamp == "true" ]; then

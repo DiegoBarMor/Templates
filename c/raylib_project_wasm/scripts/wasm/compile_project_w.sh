@@ -6,6 +6,11 @@ if [ ! -d "src" ] || [ ! -d "include" ]; then
     exit 1
 fi
 
+###### options for NAME_MINSHELL
+### minshell           -> plain canvas
+### minshell_chocomint -> canvas embedded in body of simple Chocomint-style template
+NAME_MINSHELL="minshell_chocomint"
+
 cd ~/emsdk
 # shellcheck disable=SC1091
 source ./emsdk_env.sh
@@ -13,8 +18,8 @@ cd - >/dev/null
 
 name_project=$(basename "$(realpath .)")
 path_libraylib=~/raylib/wasm/libraylib.a
-path_minshell=~/raylib/src/minshell.html
 path_raylib_h=~/raylib/src
+path_minshell="scripts/wasm/supplement/$NAME_MINSHELL.html"
 
 mkdir -p build
 for path_c in src/*.c; do

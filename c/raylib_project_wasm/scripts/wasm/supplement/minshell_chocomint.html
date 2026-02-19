@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Page Title</title>
+    <link rel="stylesheet" href="https://raw.githack.com/DiegoBarMor/chocomint-css/main/chocomint.min.css">
+    <link rel="stylesheet" type="text/css" href=style.css>
+    <style>
+      canvas.emscripten {
+        border: 0 none;
+        background-color: black;
+        display: block;
+        box-sizing: border-box;
+        max-width: 100%; /* never exceed container width */
+        height: auto;    /* preserve aspect ratio */
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="dynamic-navbar" id="navbar">
+      <nav class="chocomint-nav-container">
+        <abbr title="Home DiegoBarMor"><a href="https://diegobarmor.github.io/">
+            <img class="icon-neon" src="https://raw.githack.com/DiegoBarMor/chocomint-css/main/icons/home.png" alt="Icon">
+          </a></abbr>
+        <abbr title="Toggle BG Particles">
+          <img class="icon-neon" src="https://raw.githack.com/DiegoBarMor/chocomint-css/main/icons/particles.png" alt="Icon"
+            onclick="toggle_particles()">
+        </abbr>
+        <abbr title="Toggle Theme">
+          <img class="icon-neon" src="https://raw.githack.com/DiegoBarMor/chocomint-css/main/icons/theme.png" alt="Icon"
+            onclick="toggle_theme()">
+        </abbr>
+        <div class="chocomint-nav-buttons">
+          <a class="button" href="https://diegobarmor.github.io/index.html">Index</a>
+          <select id="page-select">
+            <optgroup label="Section">
+              <option value="index">Index</option>
+            </optgroup>
+            <optgroup label="Options">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+            </optgroup>
+          </select>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <div class="contents"> <h1>Site Title</h1>
+        <small>Template</small><br>
+        <small>By <a href="https://github.com/DiegoBarMor/">Diego Barquero Morera</a></small><br>
+
+        <h2>Description</h2>
+          <p>
+            Placeholder for a longer description.
+          </p>
+
+          <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
+          <p id="output">
+          {{{ SCRIPT }}}
+      </div>
+    </main>
+
+    <div id="bg-animation-container"></div>
+
+  </body>
+
+  <script src="https://raw.githack.com/DiegoBarMor/chocomint-css/main/chocomint.min.js"></script>
+  <script src="navbar.js"></script>
+  <script>
+    var Module = {
+      print: (function() {
+        var element = document.getElementById("output");
+        if (element) element.value = ''; // clear browser cache
+        return function(text) {
+          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+          console.log(text);
+          if (element) {
+            element.value += text + "\n";
+            element.scrollTop = element.scrollHeight; // focus on bottom
+          }
+        };
+      })(),
+      canvas: (function() {
+        var canvas = document.getElementById("canvas");
+        return canvas;
+      })()
+    };
+  </script>
+
+</html>
