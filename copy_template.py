@@ -25,6 +25,7 @@ def main():
     match NAME_TEMPLATE:
         case "c_raylib":      template_c_raylib()
         case "c_raylib_mod":  template_c_raylib("_modular")
+        case "c_raylib_wasm": template_c_raylib("_wasm")
         case _: raise ValueError(f"Template '{NAME_TEMPLATE}' is not available. Available templates: {available_templates}")
 
 
