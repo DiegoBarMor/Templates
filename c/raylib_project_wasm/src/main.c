@@ -75,6 +75,8 @@ int main(void) {
     SetTargetFPS(TARGET_FPS);
 
     player = INIT_ACTOR;
+    Texture2D tex_player = load_texture_resize("assets/circle.png", player.radius, player.radius);
+    player.tex = &tex_player;
 
 
     //-------------------------------------------------------------------------- MAIN LOOP

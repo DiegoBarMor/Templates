@@ -33,4 +33,5 @@ done
 emcc build/*.o "$path_libraylib" -o "$name_project.html" -Os -Wall \
     -I. -I"$path_raylib_h" -L"$(dirname "$path_libraylib")" \
     "$(pkg-config --cflags --libs raylib 2>/dev/null || true)" \
-    -s USE_GLFW=3 --shell-file "$path_minshell" -DPLATFORM_WEB
+    -s USE_GLFW=3 --shell-file "$path_minshell" -DPLATFORM_WEB \
+    --preload-file assets -s TOTAL_MEMORY=67108864

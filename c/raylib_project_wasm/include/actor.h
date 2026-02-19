@@ -1,6 +1,7 @@
 #ifndef ACTOR_H
 #define ACTOR_H
 
+#include <stdlib.h>
 #include "raylib.h"
 #include "raymath.h"
 
@@ -9,12 +10,14 @@
 typedef struct Actor {
     Vector2 pos; // position
     Vector2 vel; // velocity
+    float radius;
+    Texture2D* tex;
     bool active;
 } Actor;
 
 
 #define INIT_ACTOR \
-    (Actor) { {0.0f, 0.0f}, {0.0f, 0.0f}, false }
+    (Actor) { {0.0f, 0.0f}, {0.0f, 0.0f}, 50.0f, NULL, false }
 #define FOR_EACH_ACTIVE(B, FIRST, LAST)      \
     for (Actor *B = (FIRST); B < (LAST); ++B) \
         if ((B)->active)
