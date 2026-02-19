@@ -7,12 +7,14 @@ sudo apt install libasound2-dev libx11-dev libxrandr-dev \
     libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev \
     libxinerama-dev libwayland-dev libxkbcommon-dev -y
 
-TMPDIR=$(mktemp -d /tmp/raylib-build-XXXX)
-trap 'rm -rf "$TMPDIR"' EXIT
+cd ~
+if [[ -d raylib ]]; then
+    echo "Raylib directory found, skipping cloning"
+else
+    git clone https://github.com/raysan5/raylib.git
+fi
 
-git clone https://github.com/raysan5/raylib.git "$TMPDIR"
-cd "$TMPDIR"
-
+cd "raylib"
 cmake -S . -B build -DRAYLIB_SHARE=OFF -DBUILD_EXAMPLES=OFF
 sudo cmake --build build --target install
 sudo ldconfig
