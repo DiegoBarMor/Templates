@@ -21,7 +21,7 @@ cp -r "include" "$folder_out/include"
 cp -r "src"     "$folder_out/src"
 
 cd "$folder_out"
-./compile_project.sh
+bash scripts/compile_project.sh
 cd - >/dev/null
 
 if [ -z "${PREFIX+x}" ]; then # safe test for PREFIX even with "set -u"
@@ -35,7 +35,10 @@ if [ ! "$is_termux" ]; then
     if [ $append_timestamp == "true" ]; then
         echo "// $ts last compiled (other)" >> "src/main.c"
     fi
-    "$folder_out/$name_project" # run the executable
+
+    ### run the executable
+    "$folder_out/$name_project"
+
 elif [ $append_timestamp == "true" ]; then
     echo "// $ts last compiled (termux)" >> "src/main.c"
 fi
