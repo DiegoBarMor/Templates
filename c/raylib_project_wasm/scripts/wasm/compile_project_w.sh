@@ -16,7 +16,16 @@ path_libraylib=~/raylib/wasm/libraylib.a
 path_minshell=~/raylib/src/minshell.html
 path_raylib_h=~/raylib/src
 
-emcc -o "$name_project.html" -Os -Wall src/main.c "$path_libraylib" \
+mkdir -p build
+for path_c in src/*.c; do
+    stem="$(basename -s .c "$path_c")"
+    path_o="build/$stem.o"
+    emcc -Iinclude -I. -I"$path_raylib_h" -c "$path_c" -o "$path_o" \
+        "$(pkg-config --cflags raylib 2>/dev/null || true)" -DPLATFORM_WEB
+done
+
+# Link object files into final HTML/WASM output
+emcc build/*.o "$path_libraylib" -o "$name_project.html" -Os -Wall \
     -I. -I"$path_raylib_h" -L"$(dirname "$path_libraylib")" \
     "$(pkg-config --cflags --libs raylib 2>/dev/null || true)" \
     -s USE_GLFW=3 --shell-file "$path_minshell" -DPLATFORM_WEB

@@ -54,7 +54,7 @@ if [ ! "$is_termux" ]; then
     cd "$folder_out"
     echo "window.addEventListener('unload',()=>{navigator.sendBeacon('/__close');});" >> "$name_project.js"
     if command -v firefox >/dev/null 2>&1; then
-        firefox --new-tab --url localhost:8080/raylib_project_wasm.html >/dev/null 2>&1 & sleep 0.5
+        firefox --new-tab --url "localhost:8080/$name_project.html" >/dev/null 2>&1 & sleep 0.5
     fi
 
     echo "Serving HTTP on 0.0.0.0 port $PORT (http://localhost:$PORT/)."
