@@ -1,9 +1,43 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "params.h"
-#include "actor.h"
-#include "render.h"
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+const char *APP_TITLE = "Raylib Project";
+const int APP_SCREEN_W = 1600;
+const int APP_SCREEN_H = 1200;
+
+const int SCREEN_MIN_W = 400;
+const int SCREEN_MIN_H = 400;
+
+int SCREEN_INIT_W = 400;
+int SCREEN_INIT_H = 400;
+
+const int TARGET_FPS = 60;
+
+// -----------------------------------------------------------------------------
+typedef struct Actor {
+    Vector2 pos;
+} Actor;
+
+#define INIT_ACTOR \
+    (Actor) { {0.0f, 0.0f} }
+#define FOR_EACH_ACTIVE(B, FIRST, LAST)      \
+    for (Actor *B = (FIRST); B < (LAST); ++B) \
+        if ((B)->active)
+#define FOR_EACH_INACTIVE(B, FIRST, LAST)    \
+    for (Actor *B = (FIRST); B < (LAST); ++B) \
+        if (!(B)->active)
+
+
+// -----------------------------------------------------------------------------
+void draw_actor(Actor* actor) {
+    DrawCircle((int)actor->pos.x, (int)actor->pos.y, 20, RED);
+}
+
+// -----------------------------------------------------------------------------
+
 
 int main(void) {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
