@@ -51,8 +51,11 @@
         <small>By <a href="https://github.com/DiegoBarMor/">Diego Barquero Morera</a></small><br>
 
         <h2>Description</h2>
+          <label for="msg-input">Message (fetched by WASM only upon text change):</label>
+          <input id="msg-input" type="text" placeholder="Type message..." style="width:100%; box-sizing:border-box; margin-bottom:8px;">
+
           <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
-          <p id="output">{{{ SCRIPT }}}</p>
+          <pre id="output">{{{ SCRIPT }}}</pre>
       </div>
     </main>
 
@@ -63,7 +66,29 @@
   <script src="https://raw.githack.com/DiegoBarMor/chocomint-css/main/chocomint.min.js"></script>
   <script src="navbar.js"></script>
   <script>
+    // INIT GLOBALS
+    window.dirty_textinput = false;
+
+    // ADD LISTENERS
+    var input = document.getElementById("msg-input");
+    input.addEventListener("input", function () {
+      window.dirty_textinput = true;
+    }, false);
+
+    // CUSTOMIZE MODULE
     var Module = {
+      print: (function() {
+        var element = document.getElementById("output");
+        if (element) element.textContent = ''; // clear previous content
+        return function(text) {
+          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+          console.log(text);
+          if (element) {
+            element.textContent += text + "\n";
+            element.scrollTop = element.scrollHeight; // focus on bottom
+          }
+        };
+      })(),
       canvas: (function() {
         var canvas = document.getElementById("canvas");
         return canvas;

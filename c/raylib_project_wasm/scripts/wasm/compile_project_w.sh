@@ -7,9 +7,10 @@ if [ ! -d "src" ] || [ ! -d "include" ]; then
 fi
 
 ###### options for NAME_MINSHELL
-### minshell           -> plain canvas
-### minshell_chocomint -> canvas embedded in body of simple Chocomint-style template
-NAME_MINSHELL="minshell_chocomint"
+### minshell              -> plain canvas
+### minshell_chocomint    -> canvas embedded in body of simple Chocomint-style template
+### minshell_chocomint_io -> canvas embedded in body of simple Chocomint-style template; it has i/o capabilities with the WASM
+NAME_MINSHELL="minshell_chocomint_io"
 
 cd ~/emsdk
 # shellcheck disable=SC1091
