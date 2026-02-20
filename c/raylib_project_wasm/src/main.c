@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "raylib.h"
 #include "raymath.h"
 
@@ -15,6 +17,7 @@
 // -----------------------------------------------------------------------------
 static Actor player = INIT_ACTOR;
 static RenderTexture2D target;
+static char message[100];
 
 void UpdateDrawFrame(void) {
     //-------------------------------------------------------------------------- UPDATE
@@ -38,6 +41,7 @@ void UpdateDrawFrame(void) {
     BeginTextureMode(target);
         ClearBackground(BLACK);
         draw_actor(&player);
+        DrawText(message, 0, 0, 16, WHITE);
     EndTextureMode();
 
     BeginDrawing();
@@ -78,6 +82,9 @@ int main(void) {
     Texture2D tex_player = load_texture_resize("assets/circle.png", player.radius, player.radius);
     player.tex = &tex_player;
 
+    #if defined(PLATFORM_WEB)
+        printf("This text was written by the WASM binary!\n"); // the '\n' at the end is important
+    #endif
 
     //-------------------------------------------------------------------------- MAIN LOOP
     #if defined(PLATFORM_WEB)

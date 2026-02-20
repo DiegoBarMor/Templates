@@ -56,9 +56,8 @@
           </p>
 
           <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
-          <p id="output">
-          {{{ SCRIPT }}}
-      </div>
+          <pre id="output">{{{ SCRIPT }}}</pre>
+          </div>
     </main>
 
     <div id="bg-animation-container"></div>
@@ -71,12 +70,12 @@
     var Module = {
       print: (function() {
         var element = document.getElementById("output");
-        if (element) element.value = ''; // clear browser cache
+        if (element) element.textContent = ''; // clear previous content
         return function(text) {
           if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
           console.log(text);
           if (element) {
-            element.value += text + "\n";
+            element.textContent += text + "\n";
             element.scrollTop = element.scrollHeight; // focus on bottom
           }
         };
