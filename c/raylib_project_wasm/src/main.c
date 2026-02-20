@@ -6,6 +6,7 @@
 #include "params.h"
 #include "actor.h"
 #include "render.h"
+#include <string.h>
 
 //// uncomment to compile for PLATFORM_WEB
 // #define PLATFORM_WEB
@@ -17,7 +18,21 @@
 // -----------------------------------------------------------------------------
 static Actor player = INIT_ACTOR;
 static RenderTexture2D target;
-static char message[100];
+#if defined(PLATFORM_WEB)
+    static char message[50];
+#endif
+
+#if defined(PLATFORM_WEB)
+    EM_JS(bool, consume_dirty_textinput_flag, (), {
+        if (!window.dirty_textinput) return false;
+        window.dirty_textinput = false; // consume the flag
+        return true;
+    });
+    EM_JS(char*, get_textinput_str, (), {
+        var input = document.getElementById('msg-input');
+        return stringToNewUTF8(input.value);
+    });
+#endif
 
 void UpdateDrawFrame(void) {
     //-------------------------------------------------------------------------- UPDATE
@@ -37,11 +52,23 @@ void UpdateDrawFrame(void) {
 
     player.pos = virtual_mouse;
 
+    #if defined(PLATFORM_WEB)
+        if (consume_dirty_textinput_flag()) {
+            char* str = get_textinput_str();
+            printf("Updated message: %s\n", str);
+            strncpy(message, str, sizeof(message) - 1);
+            message[sizeof(message) - 1] = '\0';
+            free(str); // _malloc() was called, so avoid memory leak
+        }
+    #endif
+
     //-------------------------------------------------------------------------- DRAW
     BeginTextureMode(target);
         ClearBackground(BLACK);
         draw_actor(&player);
-        DrawText(message, 0, 0, 16, WHITE);
+        #if defined(PLATFORM_WEB)
+            DrawText(message, 10, 10, 100, WHITE);
+        #endif
     EndTextureMode();
 
     BeginDrawing();
