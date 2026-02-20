@@ -6,11 +6,21 @@ if [ ! -d "src" ] || [ ! -d "include" ]; then
     exit 1
 fi
 
-###### options for NAME_MINSHELL
-### minshell              -> plain canvas
-### minshell_chocomint    -> canvas embedded in body of simple Chocomint-style template
-### minshell_chocomint_io -> canvas embedded in body of simple Chocomint-style template; it has i/o capabilities with the WASM
-NAME_MINSHELL="minshell_chocomint_io"
+safe_copy_files() {
+    ext=$1
+    shopt -s nullglob
+    files=(website/*."$ext")
+    if [ ${#files[@]} -gt 0 ]; then
+        cp "${files[@]}" ./
+    fi
+    shopt -u nullglob
+}
+
+###### options for NAME_SHELL
+### minimal      -> plain canvas
+### chocomint    -> canvas embedded in body of simple Chocomint-style template
+### chocomint_io -> canvas embedded in body of simple Chocomint-style template; it has i/o capabilities with the WASM
+NAME_SHELL="chocomint_io"
 
 cd ~/emsdk
 # shellcheck disable=SC1091
@@ -20,7 +30,12 @@ cd - >/dev/null
 name_project=$(basename "$(realpath .)")
 path_libraylib=~/raylib/wasm/libraylib.a
 path_raylib_h=~/raylib/src
-path_minshell="scripts/wasm/supplement/$NAME_MINSHELL.html"
+path_shell="website/shell/$NAME_SHELL.html"
+
+rm -f ./*.html ./*.css ./*.js
+safe_copy_files html
+safe_copy_files css
+safe_copy_files js
 
 mkdir -p build
 for path_c in src/*.c; do
@@ -34,5 +49,5 @@ done
 emcc build/*.o "$path_libraylib" -o "$name_project.html" -Os -Wall \
     -I. -I"$path_raylib_h" -L"$(dirname "$path_libraylib")" \
     "$(pkg-config --cflags --libs raylib 2>/dev/null || true)" \
-    -s USE_GLFW=3 --shell-file "$path_minshell" -DPLATFORM_WEB \
+    -s USE_GLFW=3 --shell-file "$path_shell" -DPLATFORM_WEB \
     --preload-file assets -s TOTAL_MEMORY=67108864
