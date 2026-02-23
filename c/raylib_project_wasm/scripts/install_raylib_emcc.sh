@@ -28,7 +28,7 @@ cd ~/emsdk
 # shellcheck disable=SC1091
 source ./emsdk_env.sh
 
-cd "raylib"
+cd ~/raylib
 mkdir -p "wasm"
 
 echo "Compiling raylib library (emcc)..."

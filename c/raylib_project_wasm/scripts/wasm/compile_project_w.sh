@@ -38,16 +38,18 @@ safe_copy_files css
 safe_copy_files js
 
 mkdir -p build
-for path_c in src/*.c; do
+while IFS= read -r -d '' path_c; do
     stem="$(basename -s .c "$path_c")"
     path_o="build/$stem.o"
     emcc -Iinclude -I. -I"$path_raylib_h" -c "$path_c" -o "$path_o" \
         "$(pkg-config --cflags raylib 2>/dev/null || true)" -DPLATFORM_WEB
-done
+done <   <(find src -name '*.c' -print0)
+
 
 # Link object files into final HTML/WASM output
 emcc build/*.o "$path_libraylib" -o "$name_project.html" -Os -Wall \
     -I. -I"$path_raylib_h" -L"$(dirname "$path_libraylib")" \
     "$(pkg-config --cflags --libs raylib 2>/dev/null || true)" \
     -s USE_GLFW=3 --shell-file "$path_shell" -DPLATFORM_WEB \
-    --preload-file assets -s TOTAL_MEMORY=67108864
+    --preload-file assets -s TOTAL_MEMORY=67108864 \
+    -s EXPORTED_RUNTIME_METHODS=ccall

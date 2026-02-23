@@ -22,7 +22,8 @@ setup(
     package_data={ # optional
         "pip_project": ["config.ini", "_data/*"],
     },
-    install_requires=read_requirements(), # replace with install_requires=[] if there are no requirements
+    # install_requires=read_requirements(), # careful, doesn't work properly when uploading to pypi
+    install_requires=["numpy==2.3.4"],
     entry_points={ # comment out if package is intended to be used only via imports
         "console_scripts": [
             "pip_project=pip_project.__main__:main",
