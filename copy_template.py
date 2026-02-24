@@ -12,7 +12,7 @@ def _replace_all(path: Path, old: str, new: str):
 
 # ------------------------------------------------------------------------------
 def template_c_raylib(variant: str = ""):
-    path_template = ROOT / f"c/raylib_project{variant}"
+    path_template = ROOT / f"c/raylib_{variant}"
     shutil.copytree(path_template, PATH_NEW_PROJECT)
     _replace_all(PATH_NEW_PROJECT / ".gitignore",   "raylib_project", NAME_NEW_PROJECT)
     _replace_all(PATH_NEW_PROJECT / "README.md",    "Raylib Project", NAME_NEW_PROJECT)
@@ -30,13 +30,16 @@ def template_py_pip():
 
 # ------------------------------------------------------------------------------
 def main():
-    available_templates = ("c_raylib", "c_raylib_mod", "c_raylib_wasm")
-    match NAME_TEMPLATE:
-        case "c_raylib":      template_c_raylib()
-        case "c_raylib_mod":  template_c_raylib("_modular")
-        case "c_raylib_wasm": template_c_raylib("_wasm")
-        case "py_pip":        template_py_pip()
-        case _: raise ValueError(f"Template '{NAME_TEMPLATE}' is not available. Available templates: {available_templates}")
+    templates = {
+        "c_raylib_mini" : ( template_c_raylib, ("mini"   ,) ),
+        "c_raylib_mod"  : ( template_c_raylib, ("modular",) ),
+        "c_raylib_wasm" : ( template_c_raylib, ("wasm"   ,) ),
+        "py_pip"        : ( template_py_pip  , ( None    ,) ),
+    }
+    func,args = templates.get(NAME_TEMPLATE, (None, None))
+    if func is None:
+        raise ValueError(f"Template '{NAME_TEMPLATE}' is not available. Available templates: {templates.keys()}")
+    func(*args)
 
 
 ################################################################################
