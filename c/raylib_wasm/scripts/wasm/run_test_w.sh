@@ -53,14 +53,14 @@ if [ ! "$is_termux" ]; then
 
     ### run the executable
     cd "$folder_out"
-    echo "window.addEventListener('unload',()=>{navigator.sendBeacon('/__close');});" >> "$name_project.js"
+    echo "window.addEventListener('unload',()=>{navigator.sendBeacon('/__close');});" >> "app.js"
     if command -v firefox >/dev/null 2>&1; then
-        firefox --new-tab --url "localhost:8080/$name_project.html" >/dev/null 2>&1 & sleep 0.5
+        firefox --new-tab --url "localhost:8080/app.html" >/dev/null 2>&1 & sleep 0.5
     fi
 
     echo "Serving HTTP on 0.0.0.0 port $PORT (http://localhost:$PORT/)."
     echo "Press 'q' in the terminal or close the browser tab to stop."
-    python3 "scripts/wasm/server.py" $PORT >/dev/null 2>&1
+    python3 "scripts/wasm/server.py" $PORT >/dev/null 2>&1 # or run manually with: python3 -m http.server 8080
     echo "HTTP server stopped."
 
 elif [ $append_timestamp == "true" ]; then

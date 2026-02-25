@@ -27,12 +27,11 @@ cd ~/emsdk
 source ./emsdk_env.sh
 cd - >/dev/null
 
-name_project=$(basename "$(realpath .)")
 path_libraylib=~/raylib/wasm/libraylib.a
 path_raylib_h=~/raylib/src
 path_shell="website/shell/$NAME_SHELL.html"
 
-rm -f ./*.html ./*.css ./*.js
+# rm -f ./*.html ./*.css ./*.js
 safe_copy_files html
 safe_copy_files css
 safe_copy_files js
@@ -45,9 +44,8 @@ while IFS= read -r -d '' path_c; do
         "$(pkg-config --cflags raylib 2>/dev/null || true)" -DPLATFORM_WEB
 done <   <(find src -name '*.c' -print0)
 
-
-# Link object files into final HTML/WASM output
-emcc build/*.o "$path_libraylib" -o "$name_project.html" -Os -Wall \
+### Link object files into final HTML/WASM output
+emcc build/*.o "$path_libraylib" -o "app.html" -Os -Wall \
     -I. -I"$path_raylib_h" -L"$(dirname "$path_libraylib")" \
     "$(pkg-config --cflags --libs raylib 2>/dev/null || true)" \
     -s USE_GLFW=3 --shell-file "$path_shell" -DPLATFORM_WEB \
