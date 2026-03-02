@@ -45,7 +45,10 @@ def main():
     }
     func,args = templates.get(NAME_TEMPLATE, (None, None))
     if func is None:
-        raise ValueError(f"Template '{NAME_TEMPLATE}' is not available. Available templates: {templates.keys()}")
+        raise ValueError(
+            f"Template '{NAME_TEMPLATE}' is not available. " +\
+            f"Available templates: {' '.join(templates.keys())}"
+        )
     func(*args)
 
 
