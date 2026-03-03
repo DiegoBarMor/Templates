@@ -5,6 +5,7 @@ from pathlib import Path
 # ------------------------------------------------------------------------------
 def main():
     boilerplates = {
+        ".html": "index.html",
         ".md" : "markdown.md",
         ".py" : "main.py",
         ".sh" : "script.sh",
