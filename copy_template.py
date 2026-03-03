@@ -18,9 +18,9 @@ def _replace_all(path: Path, old: str, new: str):
 def template_c_raylib(variant: str = ""):
     path_template = ROOT / f"c/raylib_{variant}"
     shutil.copytree(path_template, PATH_NEW_PROJECT)
-    _replace_all(PATH_NEW_PROJECT / ".gitignore",   "raylib_project", NAME_NEW_PROJECT)
-    _replace_all(PATH_NEW_PROJECT / "README.md",    "Raylib Project", NAME_NEW_PROJECT)
-    _replace_all(PATH_NEW_PROJECT / "src/params.c", "Raylib Project", NAME_NEW_PROJECT)
+    _replace_all(PATH_NEW_PROJECT / ".gitignore",      "raylib_project", NAME_NEW_PROJECT)
+    _replace_all(PATH_NEW_PROJECT / "README.md",       "Raylib Project", NAME_NEW_PROJECT)
+    _replace_all(PATH_NEW_PROJECT / "src/constants.c", "Raylib Project", NAME_NEW_PROJECT)
 
 
 # ------------------------------------------------------------------------------

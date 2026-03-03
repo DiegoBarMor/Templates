@@ -3,42 +3,39 @@
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define VLEN(v) Vector2Length(v)
+#define VADD(a, b) Vector2Add(a, b)
+#define VSUB(a, b) Vector2Subtract(a, b)
+#define VMUL(v, s) Vector2Scale(v, s)
 
 const char *APP_TITLE = "Raylib Project";
-const int APP_SCREEN_W = 1600;
-const int APP_SCREEN_H = 1200;
 
-const int SCREEN_MIN_W = 400;
-const int SCREEN_MIN_H = 400;
-
-int SCREEN_INIT_W = 400;
-int SCREEN_INIT_H = 400;
+#define APP_SCREEN_W 1600.0f
+#define APP_SCREEN_H 1200.0f
+const unsigned int SCREEN_MIN_W = 400;
+const unsigned int SCREEN_MIN_H = 400;
+const unsigned int SCREEN_INIT_W = 400;
+const unsigned int SCREEN_INIT_H = 400;
 
 const int TARGET_FPS = 60;
 
 // -----------------------------------------------------------------------------
 typedef struct Actor {
     Vector2 pos;
+    float radius;
+    Color color;
 } Actor;
 
-#define INIT_ACTOR \
-    (Actor) { {0.0f, 0.0f} }
-#define FOR_EACH_ACTIVE(B, FIRST, LAST)      \
-    for (Actor *B = (FIRST); B < (LAST); ++B) \
-        if ((B)->active)
-#define FOR_EACH_INACTIVE(B, FIRST, LAST)    \
-    for (Actor *B = (FIRST); B < (LAST); ++B) \
-        if (!(B)->active)
+#define INIT_ACTOR (Actor) { {0.0f, 0.0f}, 50.0f, RED }
+#define FOR_EACH_ACTOR(B, FIRST, LAST) for (Actor *B = (FIRST); B < (LAST); ++B)
 
 
 // -----------------------------------------------------------------------------
 void draw_actor(Actor* actor) {
-    DrawCircle((int)actor->pos.x, (int)actor->pos.y, 20, RED);
+    DrawCircleV(actor->pos, actor->radius, actor->color);
 }
 
 // -----------------------------------------------------------------------------
-
-
 int main(void) {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
 
@@ -56,7 +53,6 @@ int main(void) {
 
     Actor player = INIT_ACTOR;
 
-
     //-------------------------------------------------------------------------- MAIN LOOP
     while (!WindowShouldClose()) {
         //---------------------------------------------------------------------- UPDATE
@@ -71,7 +67,7 @@ int main(void) {
                 (mouse.y - (GetScreenHeight() - (APP_SCREEN_H*framebuffer_scale)) * 0.5f) / framebuffer_scale
             },
             (Vector2){ 0.0f, 0.0f },
-            (Vector2){ (float)APP_SCREEN_W, (float)APP_SCREEN_H }
+            (Vector2){ APP_SCREEN_W, APP_SCREEN_H }
         );
 
         player.pos = virtual_mouse;
@@ -88,10 +84,10 @@ int main(void) {
                 target.texture,
                 (Rectangle){ 0.0f, 0.0f, (float)target.texture.width, (float)-target.texture.height },
                 (Rectangle){
-                    (GetScreenWidth()  - ((float)APP_SCREEN_W * framebuffer_scale))*0.5f,
-                    (GetScreenHeight() - ((float)APP_SCREEN_H * framebuffer_scale))*0.5f,
-                    (float)APP_SCREEN_W * framebuffer_scale,
-                    (float)APP_SCREEN_H * framebuffer_scale
+                    (GetScreenWidth()  - (APP_SCREEN_W * framebuffer_scale))*0.5f,
+                    (GetScreenHeight() - (APP_SCREEN_H * framebuffer_scale))*0.5f,
+                    APP_SCREEN_W * framebuffer_scale,
+                    APP_SCREEN_H * framebuffer_scale
                 },
                 (Vector2){ 0.0f, 0.0f },
                 0.0f,

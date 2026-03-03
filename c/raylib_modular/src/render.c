@@ -2,7 +2,7 @@
 
 // -----------------------------------------------------------------------------
 void draw_actor(Actor* actor) {
-    DrawCircle((int)actor->pos.x, (int)actor->pos.y, 20, RED);
+    DrawCircleV(actor->pos, actor->radius, actor->color);
 }
 
 // -----------------------------------------------------------------------------

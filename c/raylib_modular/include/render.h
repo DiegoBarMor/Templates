@@ -3,7 +3,7 @@
 
 #include "raylib.h"
 
-#include "params.h"
+#include "constants.h"
 #include "actor.h"
 
 void draw_actor(Actor* actor);

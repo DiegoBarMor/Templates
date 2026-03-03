@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "params.h"
+#include "constants.h"
 #include "actor.h"
 #include "render.h"
 
@@ -37,7 +37,7 @@ int main(void) {
                 (mouse.y - (GetScreenHeight() - (APP_SCREEN_H*framebuffer_scale)) * 0.5f) / framebuffer_scale
             },
             (Vector2){ 0.0f, 0.0f },
-            (Vector2){ (float)APP_SCREEN_W, (float)APP_SCREEN_H }
+            (Vector2){ APP_SCREEN_W, APP_SCREEN_H }
         );
 
         player.pos = virtual_mouse;
@@ -54,10 +54,10 @@ int main(void) {
                 target.texture,
                 (Rectangle){ 0.0f, 0.0f, (float)target.texture.width, (float)-target.texture.height },
                 (Rectangle){
-                    (GetScreenWidth()  - ((float)APP_SCREEN_W * framebuffer_scale))*0.5f,
-                    (GetScreenHeight() - ((float)APP_SCREEN_H * framebuffer_scale))*0.5f,
-                    (float)APP_SCREEN_W * framebuffer_scale,
-                    (float)APP_SCREEN_H * framebuffer_scale
+                    (GetScreenWidth()  - (APP_SCREEN_W * framebuffer_scale))*0.5f,
+                    (GetScreenHeight() - (APP_SCREEN_H * framebuffer_scale))*0.5f,
+                    APP_SCREEN_W * framebuffer_scale,
+                    APP_SCREEN_H * framebuffer_scale
                 },
                 (Vector2){ 0.0f, 0.0f },
                 0.0f,

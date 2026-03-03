@@ -3,7 +3,7 @@
 
 #include "raylib.h"
 
-#include "params.h"
+#include "constants.h"
 #include "actor.h"
 
 Texture2D load_texture_resize(const char* filename, int width, int height);
