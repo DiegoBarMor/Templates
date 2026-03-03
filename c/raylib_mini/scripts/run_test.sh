@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ ! -d "src" ] || [ ! -d "include" ]; then
-    echo "Error: script must be run in the project folder containing 'src' and 'include' directories."
+if [ ! -f "main.c" ]; then
+    echo "Error: script must be run in the project folder containing the 'main.c' file."
     exit 1
 fi
 
@@ -15,10 +15,7 @@ if [ ! -d "$folder_out" ]; then
     scripts/prepare_test.sh
 fi
 
-rm -rf "$folder_out/src" "$folder_out/include"
-
-cp -r "include" "$folder_out/include"
-cp -r "src"     "$folder_out/src"
+cp "main.c" "$folder_out/main.c"
 
 cd "$folder_out"
 bash scripts/compile_project.sh
@@ -33,12 +30,12 @@ fi
 ts=$(date "+%Y%m%d_%H%M%S")
 if [ ! "$is_termux" ]; then
     if [ $append_timestamp == "true" ]; then
-        echo "// $ts last compiled (other)" >> "src/main.c"
+        echo "// $ts last compiled (other)" >> "main.c"
     fi
 
     ### run the executable
     "$folder_out/$name_project"
 
 elif [ $append_timestamp == "true" ]; then
-    echo "// $ts last compiled (termux)" >> "src/main.c"
+    echo "// $ts last compiled (termux)" >> "main.c"
 fi

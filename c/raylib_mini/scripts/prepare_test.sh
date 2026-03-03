@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ ! -d "src" ] || [ ! -d "include" ]; then
-    echo "Error: script must be run in the project folder containing 'src' and 'include' directories."
+if [ ! -f "main.c" ]; then
+    echo "Error: script must be run in the project folder containing the 'main.c' file."
     exit 1
 fi
 
