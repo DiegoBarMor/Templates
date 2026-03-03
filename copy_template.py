@@ -4,6 +4,10 @@ from pathlib import Path
 
 # ------------------------------------------------------------------------------
 def _replace_all(path: Path, old: str, new: str):
+    if not path.exists():
+        print(f"--- Skipping '{path}' (doesn't exist)")
+        return
+
     path.write_text(
         path.read_text().replace(old, new)
     )
@@ -43,23 +47,34 @@ def main():
         "py_pip"        : ( template_py_pip  , ()           ),
         "website"       : ( template_website , ()           ),
     }
-    func,args = templates.get(NAME_TEMPLATE, (None, None))
-    if func is None:
+    str_available = f"Available templates: {' '.join(templates.keys())}"
+
+    if not NAME_TEMPLATE:
+        print(str_available)
+        exit(-1)
+
+    if NAME_TEMPLATE not in templates:
         raise ValueError(
-            f"Template '{NAME_TEMPLATE}' is not available. " +\
-            f"Available templates: {' '.join(templates.keys())}"
+            f"Template '{NAME_TEMPLATE}' is not available. " + str_available
         )
+
+    func,args = templates[NAME_TEMPLATE]
     func(*args)
 
 
 ################################################################################
 if __name__ == "__main__":
-    NAME_TEMPLATE = sys.argv[1]
-    PATH_NEW_PROJECT = Path(sys.argv[2])
+    PATH_NEW_PROJECT = Path(sys.argv[1])
+    NAME_TEMPLATE = sys.argv[2]
     ROOT = Path(__file__).parent
 
     NAME_NEW_PROJECT = PATH_NEW_PROJECT.name.replace(' ', '_') # ensure there are no spaces in the name...
     PATH_NEW_PROJECT = PATH_NEW_PROJECT.parent / NAME_NEW_PROJECT
+
+    if PATH_NEW_PROJECT.exists():
+        print(f"XXX '{PATH_NEW_PROJECT}' already exists. Skipping.")
+        exit(-1)
+
     main()
 
 
