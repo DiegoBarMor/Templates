@@ -1,7 +1,6 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
-
+#pragma once
 #include "raylib.h"
+
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define VLEN(v) Vector2Length(v)
@@ -19,5 +18,3 @@ extern const unsigned int SCREEN_INIT_W;
 extern const unsigned int SCREEN_INIT_H;
 
 extern const int TARGET_FPS;
-
-#endif

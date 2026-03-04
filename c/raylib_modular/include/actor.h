@@ -1,6 +1,4 @@
-#ifndef ACTOR_H
-#define ACTOR_H
-
+#pragma once
 #include "raylib.h"
 #include "raymath.h"
 
@@ -16,5 +14,3 @@ typedef struct Actor {
 #define FOR_EACH_ACTOR(B, FIRST, LAST) for (Actor *B = (FIRST); B < (LAST); ++B)
 
 void update_pos(Actor *actor, Vector2 dx, float dt);
-
-#endif
