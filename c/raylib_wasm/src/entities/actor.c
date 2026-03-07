@@ -1,4 +1,4 @@
-#include "actor.h"
+#include "entities/actor.h"
 
 // -----------------------------------------------------------------------------
 void update_pos(Actor* actor, Vector2 dx, float dt) {

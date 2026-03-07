@@ -1,4 +1,4 @@
-#include "render.h"
+#include "graphics/render.h"
 
 // -----------------------------------------------------------------------------
 Texture2D load_texture_resize(const char* filename, int width, int height) {

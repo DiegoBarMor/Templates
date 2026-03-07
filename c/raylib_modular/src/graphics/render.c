@@ -1,8 +1,8 @@
-#include "actor.h"
+#include "graphics/render.h"
 
 // -----------------------------------------------------------------------------
-void update_pos(Actor* actor, Vector2 dx, float dt) {
-    actor->pos = VADD(actor->pos, VMUL(dx, dt));
+void draw_actor(Actor* actor) {
+    DrawCircleV(actor->pos, actor->radius, actor->color);
 }
 
 // -----------------------------------------------------------------------------

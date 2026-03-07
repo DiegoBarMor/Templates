@@ -1,15 +1,12 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "raylib.h"
 #include "raymath.h"
 
 #include "constants.h"
-#include "actor.h"
-#include "render.h"
-#include <string.h>
-
-//// uncomment to compile for PLATFORM_WEB
-// #define PLATFORM_WEB
+#include "entities/actor.h"
+#include "graphics/render.h"
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
@@ -18,11 +15,9 @@
 // -----------------------------------------------------------------------------
 static Actor player = INIT_ACTOR;
 static RenderTexture2D target;
-#if defined(PLATFORM_WEB)
-    static char message[50];
-#endif
 
 #if defined(PLATFORM_WEB)
+    static char message[50];
     EM_JS(bool, consume_dirty_textinput_flag, (), {
         if (!window.dirty_textinput) return false;
         window.dirty_textinput = false; // consume the flag
@@ -34,7 +29,47 @@ static RenderTexture2D target;
     });
 #endif
 
-void UpdateDrawFrame(void) {
+void UpdateDrawFrame();
+
+// -----------------------------------------------------------------------------
+int main() {
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+
+    //-------------------------------------------------------------------------- INITIALIZATION
+    InitWindow(SCREEN_INIT_W, SCREEN_INIT_H, APP_TITLE);
+    #ifndef DO_DEBUG
+        ToggleFullscreen();
+    #endif
+    SetWindowMinSize(SCREEN_MIN_W, SCREEN_MIN_H);
+
+    target = LoadRenderTexture(APP_SCREEN_W, APP_SCREEN_H);
+    SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);
+
+    SetTargetFPS(TARGET_FPS);
+
+    player = INIT_ACTOR;
+    Texture2D tex_player = load_texture_resize("assets/circle.png", player.radius, player.radius);
+    player.tex = &tex_player;
+
+    #if defined(PLATFORM_WEB)
+        printf("This text was written by the WASM binary!\n"); // the '\n' at the end is important
+    #endif
+
+    //-------------------------------------------------------------------------- MAIN LOOP
+    #if defined(PLATFORM_WEB)
+        emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
+    #else
+        while (!WindowShouldClose()) UpdateDrawFrame();
+    #endif
+
+    //-------------------------------------------------------------------------- DE-INITIALIZATION
+    CloseWindow();
+    return 0;
+}
+
+
+// -----------------------------------------------------------------------------
+void UpdateDrawFrame() {
     //-------------------------------------------------------------------------- UPDATE
     float framebuffer_scale = MIN(
         (float)GetScreenWidth()  / APP_SCREEN_W,
@@ -89,40 +124,5 @@ void UpdateDrawFrame(void) {
     EndDrawing();
 }
 
+
 // -----------------------------------------------------------------------------
-int main(void) {
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
-
-    //-------------------------------------------------------------------------- INITIALIZATION
-    InitWindow(SCREEN_INIT_W, SCREEN_INIT_H, APP_TITLE);
-    #ifndef DO_DEBUG
-        ToggleFullscreen();
-    #endif
-    SetWindowMinSize(SCREEN_MIN_W, SCREEN_MIN_H);
-
-    target = LoadRenderTexture(APP_SCREEN_W, APP_SCREEN_H);
-    SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);
-
-    SetTargetFPS(TARGET_FPS);
-
-    player = INIT_ACTOR;
-    Texture2D tex_player = load_texture_resize("assets/circle.png", player.radius, player.radius);
-    player.tex = &tex_player;
-
-    #if defined(PLATFORM_WEB)
-        printf("This text was written by the WASM binary!\n"); // the '\n' at the end is important
-    #endif
-
-    //-------------------------------------------------------------------------- MAIN LOOP
-    #if defined(PLATFORM_WEB)
-        emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
-    #else
-        while (!WindowShouldClose()) {
-            UpdateDrawFrame();
-        }
-    #endif
-
-    //-------------------------------------------------------------------------- DE-INITIALIZATION
-    CloseWindow();
-    return 0;
-}

@@ -2,8 +2,8 @@
 #include "raymath.h"
 
 #include "constants.h"
-#include "actor.h"
-#include "render.h"
+#include "entities/actor.h"
+#include "graphics/render.h"
 
 int main(void) {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
