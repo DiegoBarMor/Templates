@@ -3,7 +3,7 @@
 
 typedef struct Object {
     float data[42];
-    Object* next;
+    struct Object* next;
 } Object;
 
 #define INIT_OBJECT (Object) { {0.0f}, NULL }

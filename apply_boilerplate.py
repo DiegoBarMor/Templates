@@ -2,18 +2,37 @@ import sys
 import shutil
 from pathlib import Path
 
+from copy_template import replace_all
+
 # ------------------------------------------------------------------------------
 def module_c():
     name = PATH_NEW_FILE.stem
     parent_header = PATH_NEW_FILE.resolve().parent
-    parent_source = Path(
-        str(parent_header)[::-1].replace("include"[::-1], "src"[::-1], 1)[::-1]
-    )
+    str_parent_header = str(parent_header)
     parent_header.mkdir(parents = True, exist_ok = True)
+
+    parent_source = Path(
+        str_parent_header[::-1].replace("include"[::-1], "src"[::-1], 1)[::-1]
+    )
     parent_source.mkdir(parents = True, exist_ok = True)
 
-    shutil.copy(FOLDER_BOILERS / "module.c", parent_source / f"{name}.c")
-    shutil.copy(FOLDER_BOILERS / "module.h", parent_header / f"{name}.h")
+    path_c = parent_source / f"{name}.c"
+    path_h = parent_header / f"{name}.h"
+
+    shutil.copy(FOLDER_BOILERS / "module.c", path_c)
+    shutil.copy(FOLDER_BOILERS / "module.h", path_h)
+
+    name_pascal = ''.join(word.capitalize() for word in name.split('_'))
+    replace_all(path_h, "OBJECT", name.upper())
+    replace_all(path_h, "Object", name_pascal)
+    replace_all(path_h, "object", name)
+
+    idx = str_parent_header[::-1].find("include"[::-1])
+    replace_all(path_c, "module.h",
+        (f"{str_parent_header[-idx+1:]}/" if idx != -1 else "") + f"{name}.h"
+    )
+    replace_all(path_c, "Object", name_pascal)
+    replace_all(path_c, "object", name)
 
 
 # ------------------------------------------------------------------------------

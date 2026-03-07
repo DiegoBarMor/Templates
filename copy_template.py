@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 
 # ------------------------------------------------------------------------------
-def _replace_all(path: Path, old: str, new: str):
+def replace_all(path: Path, old: str, new: str):
     if not path.exists():
         print(f"--- Skipping '{path}' (doesn't exist)")
         return
@@ -18,9 +18,9 @@ def _replace_all(path: Path, old: str, new: str):
 def template_c_raylib(variant: str = ""):
     path_template = ROOT / f"c/raylib_{variant}"
     shutil.copytree(path_template, PATH_NEW_PROJECT)
-    _replace_all(PATH_NEW_PROJECT / ".gitignore",      "raylib_project", NAME_NEW_PROJECT)
-    _replace_all(PATH_NEW_PROJECT / "README.md",       "Raylib Project", NAME_NEW_PROJECT)
-    _replace_all(PATH_NEW_PROJECT / "src/constants.c", "Raylib Project", NAME_NEW_PROJECT)
+    replace_all(PATH_NEW_PROJECT / ".gitignore",      "raylib_project", NAME_NEW_PROJECT)
+    replace_all(PATH_NEW_PROJECT / "README.md",       "Raylib Project", NAME_NEW_PROJECT)
+    replace_all(PATH_NEW_PROJECT / "src/constants.c", "Raylib Project", NAME_NEW_PROJECT)
 
 
 # ------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ def template_py_pip():
     shutil.copytree(path_template, PATH_NEW_PROJECT)
     shutil.move(PATH_NEW_PROJECT / "pip_project", PATH_NEW_PROJECT / NAME_NEW_PROJECT )
     for path_file in ["environment.yml", "install.sh", "README.md", "setup.py", "upload.sh"]:
-        _replace_all(PATH_NEW_PROJECT / path_file, "pip_project", NAME_NEW_PROJECT)
+        replace_all(PATH_NEW_PROJECT / path_file, "pip_project", NAME_NEW_PROJECT)
 
 
 # ------------------------------------------------------------------------------
