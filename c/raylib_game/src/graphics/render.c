@@ -2,7 +2,7 @@
 
 // -----------------------------------------------------------------------------
 void draw_actor(Actor* actor) {
-    DrawCircleV(actor->pos, actor->radius, actor->color);
+    DrawTexture(*actor->tex, (int)(actor->pos.x - actor->radius*0.5f), (int)(actor->pos.y - actor->radius*0.5f), WHITE);
 }
 
 // -----------------------------------------------------------------------------

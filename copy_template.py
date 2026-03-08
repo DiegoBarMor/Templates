@@ -33,19 +33,12 @@ def template_py_pip():
 
 
 # ------------------------------------------------------------------------------
-def template_website():
-    path_template = ROOT / "web/simple_website"
-    shutil.copytree(path_template, PATH_NEW_PROJECT)
-
-
-# ------------------------------------------------------------------------------
 def main():
     templates = {
-        "c_raylib_mini" : ( template_c_raylib, ("mini"   ,) ),
-        "c_raylib_mod"  : ( template_c_raylib, ("modular",) ),
-        "c_raylib_wasm" : ( template_c_raylib, ("wasm"   ,) ),
-        "py_pip"        : ( template_py_pip  , ()           ),
-        "website"       : ( template_website , ()           ),
+        "c_raylib_mini" : ( template_c_raylib, ("mini",) ),
+        "c_raylib_game" : ( template_c_raylib, ("game",) ),
+        "c_raylib_wasm" : ( template_c_raylib, ("wasm",) ),
+        "py_pip"        : ( template_py_pip  , ()        ),
     }
     str_available = f"Available templates: {' '.join(templates.keys())}"
 

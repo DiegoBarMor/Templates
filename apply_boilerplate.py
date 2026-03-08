@@ -75,9 +75,14 @@ def main():
 
 ################################################################################
 if __name__ == "__main__":
-    PATH_NEW_FILE = Path(sys.argv[1]) # [TODO] proper arg management
-    IS_MODULE = (sys.argv[2].lower() != "") if len(sys.argv) > 2 else False
-    # IS_MODULE = (sys.argv[2].lower() == "mod") if len(sys.argv) > 2 else False
+    PATH_NEW_FILE = Path(sys.argv[1])
+    IS_MODULE = (sys.argv[2].lower() != "") if len(sys.argv) > 2 else False # [TODO] proper arg management (i.e --mod/-m flag)
+
+    if PATH_NEW_FILE.exists():
+        proceed = input(f"File '{PATH_NEW_FILE}' already exists. Overwrite? (y/n) ")
+        if proceed.lower() != "y":
+            print("Aborting.")
+            exit(-1)
 
     EXT = PATH_NEW_FILE.suffix
     FOLDER_BOILERS = Path(__file__).parent / "_boilerplate"

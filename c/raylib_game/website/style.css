@@ -1,0 +1,9 @@
+/* NOTE: style.css is not used by minimal.html */
+canvas.emscripten {
+    border: 0 none;
+    background-color: black;
+    display: block;
+    box-sizing: border-box;
+    max-width: 100%; /* never exceed container width */
+    height: auto;    /* preserve aspect ratio */
+}

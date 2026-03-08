@@ -3,4 +3,5 @@ desktop.ini
 
 # assets/
 build/
-raylib_project_wasm*
+raylib_project*
+app*
