@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "constants.h"
+#include "globals.h"
 
 typedef struct Actor {
     Vector2 pos;

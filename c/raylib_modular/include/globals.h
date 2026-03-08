@@ -10,11 +10,11 @@
 
 extern const char *APP_TITLE;
 
-#define APP_SCREEN_W 1600.0f
-#define APP_SCREEN_H 1200.0f
-extern const unsigned int SCREEN_MIN_W;
-extern const unsigned int SCREEN_MIN_H;
-extern const unsigned int SCREEN_INIT_W;
-extern const unsigned int SCREEN_INIT_H;
+#define VIEWPORT_W 1600.0f
+#define VIEWPORT_H 1200.0f
+extern const unsigned int WINDOW_WMIN;
+extern const unsigned int WINDOW_HMIN;
+extern const unsigned int WINDOW_WINIT;
+extern const unsigned int WINDOW_HINIT;
 
 extern const int TARGET_FPS;
