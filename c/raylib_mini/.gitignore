@@ -3,5 +3,5 @@ desktop.ini
 
 # assets/
 build/
-raylib_project*
-app*
+./raylib_project*
+./app*

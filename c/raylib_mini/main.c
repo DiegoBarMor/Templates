@@ -36,10 +36,10 @@ void draw_actor(Actor* actor) {
 }
 
 // -----------------------------------------------------------------------------
-int main(void) {
+int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
 
-    //-------------------------------------------------------------------------- INITIALIZATION
+    ////////////////////////////// INITIALIZATION //////////////////////////////
     InitWindow(WINDOW_WINIT, WINDOW_HINIT, APP_TITLE);
     #ifndef DO_DEBUG
         ToggleFullscreen();
@@ -53,9 +53,9 @@ int main(void) {
 
     Actor player = INIT_ACTOR;
 
-    //-------------------------------------------------------------------------- MAIN LOOP
+    ///////////////////////////////// MAIN LOOP ////////////////////////////////
     while (!WindowShouldClose()) {
-        //---------------------------------------------------------------------- UPDATE
+    ////////////////////////////////// UPDATE //////////////////////////////////
         float framebuffer_scale = MIN(
             (float)GetScreenWidth()  / VIEWPORT_W,
             (float)GetScreenHeight() / VIEWPORT_H
@@ -72,7 +72,7 @@ int main(void) {
 
         player.pos = virtual_mouse;
 
-        //---------------------------------------------------------------------- DRAW
+    /////////////////////////////////// DRAW ///////////////////////////////////
         BeginTextureMode(target);
             ClearBackground(BLACK);
             draw_actor(&player);
@@ -96,7 +96,7 @@ int main(void) {
         EndDrawing();
     }
 
-    //-------------------------------------------------------------------------- DE-INITIALIZATION
+    ///////////////////////////// DE-INITIALIZATION ////////////////////////////
     CloseWindow();
     return 0;
 }

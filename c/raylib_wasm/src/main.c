@@ -13,7 +13,7 @@
     #include <emscripten/emscripten.h>
 #endif
 
-// -----------------------------------------------------------------------------
+//////////////////////////////// CORE VARIABLES ////////////////////////////////
 static Actor player = INIT_ACTOR;
 static RenderTexture2D target;
 
@@ -30,13 +30,13 @@ static RenderTexture2D target;
     });
 #endif
 
-void UpdateDrawFrame();
+void update_draw_frame();
 
 // -----------------------------------------------------------------------------
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
 
-    //-------------------------------------------------------------------------- INITIALIZATION
+    ////////////////////////////// INITIALIZATION //////////////////////////////
     InitWindow(WINDOW_WINIT, WINDOW_HINIT, APP_TITLE);
     #ifndef DO_DEBUG
         ToggleFullscreen();
@@ -56,14 +56,14 @@ int main() {
         printf("This text was written by the WASM binary!\n"); // the '\n' at the end is important
     #endif
 
-    //-------------------------------------------------------------------------- MAIN LOOP
+    ///////////////////////////////// MAIN LOOP ////////////////////////////////
     #if defined(PLATFORM_WEB)
-        emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
+        emscripten_set_main_loop(update_draw_frame, 0, 1);
     #else
-        while (!WindowShouldClose()) UpdateDrawFrame();
+        while (!WindowShouldClose()) update_draw_frame();
     #endif
 
-    //-------------------------------------------------------------------------- DE-INITIALIZATION
+    ///////////////////////////// DE-INITIALIZATION ////////////////////////////
     UnloadTexture(tex_player);
     CloseWindow();
     return 0;
@@ -71,8 +71,8 @@ int main() {
 
 
 // -----------------------------------------------------------------------------
-void UpdateDrawFrame() {
-    //-------------------------------------------------------------------------- UPDATE
+void update_draw_frame() {
+    ////////////////////////////////// UPDATE //////////////////////////////////
     float framebuffer_scale = MIN(
         (float)GetScreenWidth()  / VIEWPORT_W,
         (float)GetScreenHeight() / VIEWPORT_H
@@ -99,7 +99,7 @@ void UpdateDrawFrame() {
         }
     #endif
 
-    //-------------------------------------------------------------------------- DRAW
+    /////////////////////////////////// DRAW ///////////////////////////////////
     BeginTextureMode(target);
         ClearBackground(BLACK);
         draw_actor(&player);

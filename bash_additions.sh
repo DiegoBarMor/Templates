@@ -19,5 +19,5 @@ template() { # FUNC: create a template project at the specified path
         return 1
     fi
 
-    python3 "$DIR_HSM/plugins/templates/copy_template.py" "$template_name" "$path_new_project"
+    python3 "$DIR_HSM/plugins/templates/copy_template.py" "$path_new_project" "$template_name"
 }

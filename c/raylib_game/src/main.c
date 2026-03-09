@@ -1,30 +1,28 @@
 #include <stdio.h>
-#include <string.h>
 
 #include "raylib.h"
 #include "raymath.h"
 
 #include "globals.h"
-#include "entities/actor.h"
-#include "graphics/textures.h"
+#include "game/app.h"
 #include "graphics/render.h"
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
 
-// -----------------------------------------------------------------------------
-static Actor player = INIT_ACTOR;
+//////////////////////////////// CORE VARIABLES ////////////////////////////////
 static RenderTexture2D target;
+static App app;
 
-void UpdateDrawFrame();
+void update_draw_frame();
 
 
 // -----------------------------------------------------------------------------
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
 
-    //-------------------------------------------------------------------------- INITIALIZATION
+    ////////////////////////////// INITIALIZATION //////////////////////////////
     InitWindow(WINDOW_WINIT, WINDOW_HINIT, APP_TITLE);
     #ifndef DO_DEBUG
         ToggleFullscreen();
@@ -36,27 +34,25 @@ int main() {
 
     SetTargetFPS(TARGET_FPS);
 
-    player = INIT_ACTOR;
-    Texture2D tex_player = load_texture_resize("assets/circle.png", player.radius, player.radius);
-    player.tex = &tex_player;
+    init_app(&app);
 
-    //-------------------------------------------------------------------------- MAIN LOOP
+    ///////////////////////////////// MAIN LOOP ////////////////////////////////
     #if defined(PLATFORM_WEB)
-        emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
+        emscripten_set_main_loop(update_draw_frame, 0, 1);
     #else
-        while (!WindowShouldClose()) UpdateDrawFrame();
+        while (!WindowShouldClose()) update_draw_frame();
     #endif
 
-    //-------------------------------------------------------------------------- DE-INITIALIZATION
-    UnloadTexture(tex_player);
+    ///////////////////////////// DE-INITIALIZATION ////////////////////////////
+    destroy_app(&app);
     CloseWindow();
     return 0;
 }
 
 
 // -----------------------------------------------------------------------------
-void UpdateDrawFrame() {
-    //-------------------------------------------------------------------------- UPDATE
+void update_draw_frame() {
+    ////////////////////////////////// UPDATE //////////////////////////////////
     float framebuffer_scale = MIN(
         (float)GetScreenWidth()  / VIEWPORT_W,
         (float)GetScreenHeight() / VIEWPORT_H
@@ -71,12 +67,11 @@ void UpdateDrawFrame() {
         (Vector2){ VIEWPORT_W, VIEWPORT_H }
     );
 
-    player.pos = virtual_mouse;
+    update_app(&app, virtual_mouse);
 
-    //-------------------------------------------------------------------------- DRAW
+    /////////////////////////////////// DRAW ///////////////////////////////////
     BeginTextureMode(target);
-        ClearBackground(BLACK);
-        draw_actor(&player);
+        draw_app(&app);
     EndTextureMode();
 
     BeginDrawing();
