@@ -70,6 +70,7 @@ def main():
         module_python()
         return
 
+    PATH_NEW_FILE.parent.mkdir(parents = True, exist_ok = True)
     shutil.copy(FOLDER_BOILERS / boilerplates[EXT], PATH_NEW_FILE)
 
 

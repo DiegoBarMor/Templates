@@ -3,6 +3,20 @@ import shutil
 from pathlib import Path
 
 # ------------------------------------------------------------------------------
+def uncomment_gitignore(path_gitignore: Path):
+    if not path_gitignore.exists():
+        print(f"--- Skipping '{path_gitignore}' (doesn't exist)")
+        return
+
+    gitignore = path_gitignore.read_text()
+    uncomment = '\n'.join(
+        line.lstrip('#').lstrip() for line in gitignore.splitlines()
+    )
+    path_gitignore.write_text(uncomment)
+    print(f">>> Uncommented '{path_gitignore}'")
+
+
+# ------------------------------------------------------------------------------
 def replace_all(path: Path, old: str, new: str):
     if not path.exists():
         print(f"--- Skipping '{path}' (doesn't exist)")
@@ -21,6 +35,7 @@ def template_c_raylib(variant: str = ""):
     replace_all(PATH_NEW_PROJECT / ".gitignore",      "raylib_project", NAME_NEW_PROJECT)
     replace_all(PATH_NEW_PROJECT / "README.md",       "Raylib Project", NAME_NEW_PROJECT)
     replace_all(PATH_NEW_PROJECT / "src/constants.c", "Raylib Project", NAME_NEW_PROJECT)
+    uncomment_gitignore(PATH_NEW_PROJECT / ".gitignore")
 
 
 # ------------------------------------------------------------------------------
@@ -28,8 +43,13 @@ def template_py_pip():
     path_template = ROOT / "python/pip_project"
     shutil.copytree(path_template, PATH_NEW_PROJECT)
     shutil.move(PATH_NEW_PROJECT / "pip_project", PATH_NEW_PROJECT / NAME_NEW_PROJECT )
-    for path_file in ["environment.yml", "install.sh", "README.md", "setup.py", "upload.sh"]:
+    for path_file in [
+        "environment.yml", "README.md", "setup.py",
+         "scripts/reinstall.sh", "scripts/upload.sh",
+        ".vscode/settings.json"
+    ]:
         replace_all(PATH_NEW_PROJECT / path_file, "pip_project", NAME_NEW_PROJECT)
+    uncomment_gitignore(PATH_NEW_PROJECT / ".gitignore")
 
 
 # ------------------------------------------------------------------------------

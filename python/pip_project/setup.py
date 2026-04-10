@@ -1,15 +1,12 @@
 from setuptools import setup, find_packages
 from pathlib import Path
 
-def read_requirements(path = "requirements.txt"):
-    p = Path(path)
-    if not p.exists(): return []
-    stripped_lines = (ln.strip() for ln in p.read_text().strip().splitlines())
-    return [ln for ln in stripped_lines if ln and not ln.startswith("#")]
+__version__: str
+exec(Path("pip_project/_version.py").read_text())
 
 setup(
     name="pip_project",
-    version="0.1.0",
+    version=__version__,
     description="Package description",
     keywords="",
     long_description=open("README.md").read(),
@@ -22,7 +19,6 @@ setup(
     package_data={ # optional
         "pip_project": ["config.ini", "_data/*"],
     },
-    # install_requires=read_requirements(), # careful, doesn't work properly when uploading to pypi
     install_requires=["numpy==2.3.4"],
     entry_points={ # comment out if package is intended to be used only via imports
         "console_scripts": [

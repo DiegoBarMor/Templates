@@ -1,0 +1,15 @@
+{
+    "python.defaultInterpreterPath": "/home/dbm/miniconda3/envs/pip_project/bin/python3",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true
+    },
+    "hide-files.files": [],
+    "python.analysis.extraPaths": [
+        "./src"
+    ]
+}
