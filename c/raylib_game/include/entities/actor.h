@@ -14,4 +14,4 @@ typedef struct Actor {
 #define INIT_ACTOR (Actor) { {0.0f, 0.0f}, 50.0f, NULL }
 #define FOR_EACH_ACTOR(B, FIRST, LAST) for (Actor *B = (FIRST); B < (LAST); ++B)
 
-void update_pos(Actor *actor, Vector2 dx, float dt);
+void update_actor(Actor *actor, Vector2 dx, float dt);

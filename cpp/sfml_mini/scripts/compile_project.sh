@@ -24,4 +24,4 @@ sfml_libs=${sfml_libs//-lsfml-network/-lsfml-network-s}
 sfml_libs=${sfml_libs//-lsfml-system/-lsfml-system-s}
 
 # shellcheck disable=SC2086
-g++ build/main.o -o build/main $sfml_libs -lX11 -lXrandr -lXi -lXcursor -ludev -ldl -pthread
+g++ build/main.o -o build/main $sfml_libs -lX11 -lXrandr -lXi -lXcursor -ludev -ldl -pthread -lfreetype -lharfbuzz

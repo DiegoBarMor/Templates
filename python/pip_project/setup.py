@@ -7,7 +7,7 @@ exec(Path("pip_project/_version.py").read_text())
 setup(
     name="pip_project",
     version=__version__,
-    description="Package description",
+    description="",
     keywords="",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -20,7 +20,7 @@ setup(
         "pip_project": ["config.ini", "_data/*"],
     },
     install_requires=["numpy==2.3.4"],
-    entry_points={ # comment out if package is intended to be used only via imports
+    entry_points={ # use this kwarg if package is intended to be used only via imports
         "console_scripts": [
             "pip_project=pip_project.__main__:main",
         ],
