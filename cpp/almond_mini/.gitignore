@@ -1,0 +1,8 @@
+desktop.ini
+**__pycache__**
+.vscode/
+
+tmp/
+build/
+
+almond.hpp

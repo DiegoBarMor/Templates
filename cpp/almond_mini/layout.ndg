@@ -1,0 +1,4 @@
+col (p=20;s=20) {
+    button(t="first button")
+    button(t="second button")
+}

@@ -39,6 +39,11 @@ def template_c_raylib(variant: str = ""):
 
 
 # ------------------------------------------------------------------------------
+def template_cpp():
+    ... # [WIP]
+
+
+# ------------------------------------------------------------------------------
 def template_py_pip():
     path_template = ROOT / "python/pip_project"
     shutil.copytree(path_template, PATH_NEW_PROJECT)
@@ -55,10 +60,12 @@ def template_py_pip():
 # ------------------------------------------------------------------------------
 def main():
     templates = {
-        "c_raylib_mini" : ( template_c_raylib, ("mini",) ),
-        "c_raylib_game" : ( template_c_raylib, ("game",) ),
-        "c_raylib_wasm" : ( template_c_raylib, ("wasm",) ),
-        "py_pip"        : ( template_py_pip  , ()        ),
+        "c_raylib_mini"  : ( template_c_raylib, ("mini",) ),
+        "c_raylib_game"  : ( template_c_raylib, ("game",) ),
+        "c_raylib_wasm"  : ( template_c_raylib, ("wasm",) ),
+        "cpp_sfml_mini"  : ( template_cpp     , ()        ),
+        "cpp_almond_mini": ( template_cpp     , ()        ),
+        "py_pip"         : ( template_py_pip  , ()        ),
     }
     str_available = f"Available templates: {' '.join(templates.keys())}"
 
