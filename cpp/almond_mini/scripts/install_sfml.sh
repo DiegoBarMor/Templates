@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+### Installs SFML system-wide (if needed)
+### Last updated: 2026/08/03
+
 sudo apt update
 sudo apt install \
     libxrandr-dev \

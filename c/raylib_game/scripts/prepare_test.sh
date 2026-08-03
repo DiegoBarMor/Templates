@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+### Creates a folder on a second location and copies scripts and assets to it.
+### Last updated: 2026/08/03
+
 if [ ! -d "src" ] || [ ! -d "include" ]; then
     echo "Error: script must be run in the project folder containing 'src' and 'include' directories."
     exit 1

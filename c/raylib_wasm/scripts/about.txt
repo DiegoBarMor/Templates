@@ -1,3 +1,0 @@
-Modular compilation and linking. Assumes "src" and "include" directories are present. These can be potentially nested.
-
-Last updated: 2025/03/03

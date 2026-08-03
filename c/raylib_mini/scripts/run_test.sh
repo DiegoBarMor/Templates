@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+### Builds the project at a second location and runs the executable.
+### Last updated: 2026/08/03
+
 if [ ! -f "main.c" ]; then
     echo "Error: script must be run in the project folder containing the 'main.c' file."
     exit 1
@@ -18,7 +21,7 @@ fi
 cp "main.c" "$folder_out/main.c"
 
 cd "$folder_out"
-bash scripts/compile_project.sh
+bash scripts/build_project.sh
 cd - >/dev/null
 
 if [ -z "${PREFIX+x}" ]; then # safe test for PREFIX even with "set -u"

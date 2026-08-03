@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+### Builds the project at a second location and runs the executable (WASM).
+### Last updated: 2026/08/03
+
 if [ ! -d "src" ] || [ ! -d "include" ]; then
     echo "Error: script must be run in the project folder containing 'src' and 'include' directories."
     exit 1
@@ -36,7 +39,7 @@ cp -r "src"     "$folder_out/src"
 cp -r "website" "$folder_out/website"
 
 cd "$folder_out"
-bash scripts/wasm/compile_project_w.sh
+bash scripts/wasm/build_project_w.sh
 cd - >/dev/null
 
 if [ -z "${PREFIX+x}" ]; then # safe test for PREFIX even with "set -u"

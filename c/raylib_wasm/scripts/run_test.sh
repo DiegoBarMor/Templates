@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+### Builds the project at a second location and runs the executable.
+### Last updated: 2026/08/03
+
 if [ ! -d "src" ] || [ ! -d "include" ]; then
     echo "Error: script must be run in the project folder containing 'src' and 'include' directories."
     exit 1
@@ -21,7 +24,7 @@ cp -r "include" "$folder_out/include"
 cp -r "src"     "$folder_out/src"
 
 cd "$folder_out"
-bash scripts/compile_project.sh
+bash scripts/build_project.sh
 cd - >/dev/null
 
 if [ -z "${PREFIX+x}" ]; then # safe test for PREFIX even with "set -u"
