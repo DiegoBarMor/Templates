@@ -3,7 +3,7 @@ set -euo pipefail
 
 ### Compile and link the project source files for WebAssembly (WASM)
 ### Modular build assumes that "src" and "include" directories are present. These can be potentially nested.
-### Last updated: 2026/08/03
+### Last updated: 2026/08/04
 
 if [ ! -d "src" ] || [ ! -d "include" ]; then
     echo "Error: script must be run in the project folder containing 'src' and 'include' directories."
@@ -13,6 +13,7 @@ fi
 safe_copy_files() {
     local ext=$1
     shopt -s nullglob
+
     local files=(website/*."$ext")
     if [ ${#files[@]} -gt 0 ]; then
         cp "${files[@]}" ./
@@ -20,7 +21,9 @@ safe_copy_files() {
     shopt -u nullglob
 }
 compile_modular_w() {
+    local path_raylib_h=$1
     mkdir -p build
+
     while IFS= read -r -d '' path_c; do
         stem="$(basename -s .c "$path_c")"
         path_o="build/$stem.o"
@@ -29,6 +32,10 @@ compile_modular_w() {
     done <   <(find src -name '*.c' -print0)
 }
 link_modular_w() {
+    local path_raylib_h=$1
+    local path_libraylib=$2
+    local path_shell=$3
+
     emcc build/*.o "$path_libraylib" -o "app.html" -Os -Wall \
         -I. -I"$path_raylib_h" -L"$(dirname "$path_libraylib")" \
         "$(pkg-config --cflags --libs raylib 2>/dev/null || true)" \
@@ -48,14 +55,12 @@ cd ~/emsdk
 source ./emsdk_env.sh
 cd - >/dev/null
 
-path_libraylib=~/raylib/wasm/libraylib.a
-path_raylib_h=~/raylib/src
-path_shell="website/shell/$NAME_SHELL.html"
-
-# rm -f ./*.html ./*.css ./*.js
 safe_copy_files html
 safe_copy_files css
 safe_copy_files js
 
-compile_modular_w
-link_modular_w
+compile_modular_w ~/raylib/src
+link_modular_w \
+    ~/raylib/src \
+    ~/raylib/wasm/libraylib.a \
+    "website/shell/$NAME_SHELL.html"

@@ -3,19 +3,14 @@ set -euo pipefail
 
 ### Compile and link the project source files
 ### Simplified build assumes a single "main.cpp" file and no "src" or "include" directories.
-### Last updated: 2026/08/03
+### Last updated: 2026/08/04
 
 if [ ! -f "main.cpp" ]; then
     echo "Error: script must be run in the project folder containing the 'main.cpp' file."
     exit 1
 fi
 
-compile_mini() {
-    mkdir -p build
-    # shellcheck disable=SC2046
-    g++ -c main.cpp $(pkg-config --cflags sfml-all) -o build/main.o
-}
-link_mini() {
+sfml_flags() {
     ### the files in SFML/tools/pkg-config specify the library names without the -s "suffix"
     ### however, during installation, the libraries are named with the -s suffix (e.g. "libsfml-graphics-s.a" instead of "libsfml-graphics.a")
     ### the lines below are a workaround to fix this issue
@@ -28,7 +23,34 @@ link_mini() {
     sfml_libs=${sfml_libs//-lsfml-system/-lsfml-system-s}
 
     # shellcheck disable=SC2086
-    g++ build/main.o -o build/main $sfml_libs -lX11 -lXrandr -lXi -lXcursor -ludev -ldl -pthread -lfreetype -lharfbuzz
+    echo $sfml_libs -lX11 -lXrandr -lXi -lXcursor -ludev -ldl -pthread -lfreetype -lharfbuzz
+}
+compile_mini() {
+    mkdir -p build
+    # shellcheck disable=SC2046
+    g++ -c main.cpp $(pkg-config --cflags sfml-all) -o build/main.o
+}
+link_mini() {
+    # shellcheck disable=SC2046
+    g++ build/main.o -o build/main $(sfml_flags)
+}
+
+compile_modular() { ### use for modular projects
+    local path_src=$1
+    local path_build=$2
+
+    while IFS= read -r -d '' path_cpp; do
+        stem="$(basename -s ".cpp" "$path_cpp")"
+        path_o="$path_build/$stem.o"
+        # shellcheck disable=SC2046
+        g++ -c "$path_cpp" $(pkg-config --cflags sfml-all) -o "$path_o"
+    done <   <(find "$path_src" -name '*.cpp' -print0)
+}
+link_modular() { ### use for modular projects
+    local path_build=$1
+    # shellcheck disable=SC2046
+    g++ "$path_build"/*.o -o "$path_build/app" $(sfml_flags)
+
 }
 
 compile_mini

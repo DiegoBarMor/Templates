@@ -19,12 +19,7 @@ if [ ! -f "almond.hpp" ]; then
     mv "$ftmp/almond.hpp" almond.hpp
 fi
 
-compile_mini() {
-    mkdir -p build
-    # shellcheck disable=SC2046
-    g++ -c main.cpp $(pkg-config --cflags sfml-all) -o build/main.o
-}
-link_mini() {
+sfml_flags() {
     ### the files in SFML/tools/pkg-config specify the library names without the -s "suffix"
     ### however, during installation, the libraries are named with the -s suffix (e.g. "libsfml-graphics-s.a" instead of "libsfml-graphics.a")
     ### the lines below are a workaround to fix this issue
@@ -37,7 +32,16 @@ link_mini() {
     sfml_libs=${sfml_libs//-lsfml-system/-lsfml-system-s}
 
     # shellcheck disable=SC2086
-    g++ build/main.o -o build/main $sfml_libs -lX11 -lXrandr -lXi -lXcursor -ludev -ldl -pthread -lfreetype -lharfbuzz
+    echo $sfml_libs -lX11 -lXrandr -lXi -lXcursor -ludev -ldl -pthread -lfreetype -lharfbuzz
+}
+compile_mini() {
+    mkdir -p build
+    # shellcheck disable=SC2046
+    g++ -c main.cpp $(pkg-config --cflags sfml-all) -o build/main.o
+}
+link_mini() {
+    # shellcheck disable=SC2046
+    g++ build/main.o -o build/main $(sfml_flags)
 }
 
 compile_mini
