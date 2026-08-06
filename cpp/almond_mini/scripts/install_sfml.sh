@@ -2,23 +2,14 @@
 set -euo pipefail
 
 ### Installs SFML system-wide (if needed)
-### Last updated: 2026/08/03
+### Last updated: 2026/08/06
 
-sudo apt update
-sudo apt install \
-    libxrandr-dev \
-    libxcursor-dev \
-    libxi-dev \
-    libudev-dev \
-    libfreetype-dev \
-    libflac-dev \
-    libvorbis-dev \
-    libgl1-mesa-dev \
-    libegl1-mesa-dev \
-    libfreetype-dev \
-    libharfbuzz-dev \
-    libmbedtls-dev \
-    libssh2-1-dev -y
+if [ ! -d "scripts" ]; then
+    echo "Error: script must be run in the project folder containing the 'scripts' directory."
+    exit 1
+fi
+
+bash scripts/install_dependencies.sh
 
 cd ~
 if [[ -d sfml ]]; then

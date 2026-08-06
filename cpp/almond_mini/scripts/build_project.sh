@@ -1,9 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-### Compile and link the project source files
+### Compile and link the project source files (without CMake)
+### Must run "scripts/install_sfml.sh" at some point first (once).
 ### Simplified build assumes a single "main.cpp" file and no "src" or "include" directories.
-### Last updated: 2026/08/03
+### Last updated: 2026/08/06
 
 if [ ! -f "main.cpp" ]; then
     echo "Error: script must be run in the project folder containing the 'main.cpp' file."

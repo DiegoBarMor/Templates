@@ -6,3 +6,5 @@ tmp/
 build/
 
 almond.hpp
+CMakeLists.txt
+!scripts/cmake/CMakeLists.txt
