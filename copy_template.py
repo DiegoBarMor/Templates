@@ -39,8 +39,13 @@ def template_c_raylib(variant: str = ""):
 
 
 # ------------------------------------------------------------------------------
-def template_cpp():
-    ... # [WIP]
+def template_cpp(variant: str = ""):
+    path_template = ROOT / f"cpp/{variant}_app"
+    shutil.copytree(path_template, PATH_NEW_PROJECT)
+    replace_all(PATH_NEW_PROJECT / "main.cpp",  "App Template", NAME_NEW_PROJECT)
+    replace_all(PATH_NEW_PROJECT / "README.md", "App Template", NAME_NEW_PROJECT)
+
+    uncomment_gitignore(PATH_NEW_PROJECT / ".gitignore")
 
 
 # ------------------------------------------------------------------------------
@@ -60,12 +65,12 @@ def template_py_pip():
 # ------------------------------------------------------------------------------
 def main():
     templates = {
-        "c_raylib_mini"  : ( template_c_raylib, ("mini",) ),
-        "c_raylib_game"  : ( template_c_raylib, ("game",) ),
-        "c_raylib_wasm"  : ( template_c_raylib, ("wasm",) ),
-        "cpp_sfml_mini"  : ( template_cpp     , ()        ),
-        "cpp_almond_mini": ( template_cpp     , ()        ),
-        "py_pip"         : ( template_py_pip  , ()        ),
+        "c_raylib_mini" : ( template_c_raylib, ("mini",)  ),
+        "c_raylib_game" : ( template_c_raylib, ("game",)  ),
+        "c_raylib_wasm" : ( template_c_raylib, ("wasm",)  ),
+        "cpp_sfml_app"  : ( template_cpp     , ("sfml",)  ),
+        "cpp_almond_app": ( template_cpp     , ("almond",)),
+        "py_pip"        : ( template_py_pip  , ()         ),
     }
     str_available = f"Available templates: {' '.join(templates.keys())}"
 
